@@ -1,0 +1,17 @@
+- in the command ask user the file to encode in base64
+- check if file path exist, if not return 'file not exist'
+- Get file data
+- encode file in base64 
+- retrieve base64 string
+
+
+Adoptez le versionnement sémantique (SemVer) qui utilise le format MAJOR.MINOR.PATCH :
+
+MAJOR : Incrémenter pour des changements incompatibles.
+MINOR : Incrémenter pour ajouter des fonctionnalités sans casser l'existant.
+PATCH : Incrémenter pour des corrections de bugs ou des améliorations mineures.
+Exemples :
+
+1.0.0 : Première version stable.
+1.1.0 : Ajout d'une nouvelle fonctionnalité.
+1.1.1 : Correction de bug dans la version précédente.
