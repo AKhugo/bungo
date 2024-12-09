@@ -5,6 +5,9 @@ import (
 	"fmt"
 )
 
+// FileExists check if a file exist
+// if the file does not exist, it returns false
+// if there is an error while checking the file, it returns false
 func FileExists(path string) bool {
 
 	if path == "" {
@@ -24,6 +27,9 @@ func FileExists(path string) bool {
 
 }
 
+// GetFileData read a file and return its content as a byte slice.
+// If the file does not exist, it returns an error.
+// If there is an error while reading the file, it returns an error.
 func GetFileData(path string) ([]byte, error) {
 
 
