@@ -23,7 +23,6 @@ var encodeCmd = &cobra.Command{
 		}
 
 
-
 		if inputFile == "" {
 			return fmt.Errorf("error encoding file: input file is missing")
 		}
