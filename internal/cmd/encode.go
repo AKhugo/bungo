@@ -12,7 +12,7 @@ import (
 var encodeCmd = &cobra.Command{
 	Use:   "encode",
 	Short: "Encode a file in base64",
-	Long:  `Encode a file in base64`,
+	Long:  `Encode any file in base64`,
 	RunE: func (cmd *cobra.Command, args []string) error {
 		
 		// Récupérer les flags
@@ -65,11 +65,15 @@ var encodeCmd = &cobra.Command{
 		}
 
 		// now write encoded file
-		
-		os.WriteFile(outputFile, []byte(encoded), 0644)
+		err = os.WriteFile(outputFile, []byte(encoded), 0644)
+
+		if err != nil {
+			return fmt.Errorf("error encoding file : error writing output file %s", outputFile)
+		}
 
 		// message to user
 		fmt.Println("file encoded in base64. Please check your output file : " + outputFile)
+
 
 		return nil
 	},
