@@ -1,10 +1,10 @@
-package cmd
+package command
 
 import (
 	"context"
 	"fmt"
 	"os/exec"
-	"github.com/koffihuguesagossadou/bungo/pkg/common"
+	"github.com/koffihuguesagossadou/bungo/common"
 	"github.com/spf13/cobra"
 )
 
@@ -21,12 +21,18 @@ func Do(args []string) int {
 	rootCmd.AddCommand(versionCmd)
 
 	// encode command with default flags
-	encodeCmd.Flags().StringP("i", "i", "", "input file")
-	encodeCmd.Flags().StringP("o", "o", "", "output file")
-	rootCmd.AddCommand(encodeCmd)
+	EncodeCmd.Flags().StringP("i", "i", "", "input file")
+	EncodeCmd.Flags().StringP("o", "o", "", "output file")
+	rootCmd.AddCommand(EncodeCmd)
+
+	// decode command with default flags
+	DecodeCmd.Flags().StringP("i", "i", "", "input file")
+	DecodeCmd.Flags().StringP("o", "o", "", "output file")
+	rootCmd.AddCommand(DecodeCmd)
 
 	ctx := context.Background()
 
+	// 
 	if err := rootCmd.ExecuteContext(ctx); err != nil {
 		if exitError, ok := err.(*exec.ExitError); ok {
 			return exitError.ExitCode()
