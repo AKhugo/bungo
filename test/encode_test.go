@@ -33,7 +33,7 @@ func TestDo(t *testing.T) {
 	}
 
 
-	inputFile, err := filepath.Abs("../../test/files/good-docx-test.docx");
+	inputFile, err := filepath.Abs("../test/files/good-docx-test.docx");
 
 	if err != nil {
 		t.Errorf("FileExists(\"%s\") = false; want true", inputFile)

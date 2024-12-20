@@ -23,7 +23,7 @@ func TestFileExists(t *testing.T) {
 	// Test case 3: File exists
 
 	// get file in test/files directory
-	existingFile, err := filepath.Abs("../../test/files/good-docx-test.docx");
+	existingFile, err := filepath.Abs("../test/files/good-docx-test.docx");
 
 	if err != nil {
 		t.Errorf("FileExists(\"%s\") = false; want true", existingFile)
@@ -50,7 +50,7 @@ func TestGetFileData(t *testing.T) {
 	}
 
 	// Cas 2 : Fichier texte existant (txt)
-	textFile, err := filepath.Abs("../../test/files/good-txt-test.txt");
+	textFile, err := filepath.Abs("../test/files/good-txt-test.txt");
 	
 	if err != nil {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error, Error getting file path:", textFile, err)
@@ -67,7 +67,7 @@ func TestGetFileData(t *testing.T) {
 
 
 	// Cas 3 : Fichier binaire existant
-	binaryFile, err := filepath.Abs("../../test/files/good-jpeg-test.jpeg");
+	binaryFile, err := filepath.Abs("../test/files/good-jpeg-test.jpeg");
 	
 	if err != nil {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error, Error getting file path:", binaryFile, err)
