@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/koffihuguesagossadou/bungo/internal/cmd"
 
+	"github.com/koffihuguesagossadou/bungo/pkg/command"
 )
 
 func main() {
 
-	if err := cmd.Do(flag.Args()); err != 0 {
+	if err := command.Do(flag.Args()); err != 0 {
 		fmt.Println(err)
 		return
 	}
