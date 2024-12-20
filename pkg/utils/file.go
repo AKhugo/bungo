@@ -1,4 +1,4 @@
-package fi
+package utils
 
 import (
 	"os"

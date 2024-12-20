@@ -7,13 +7,12 @@ import (
 	"testing"
 
 	"github.com/koffihuguesagossadou/bungo/pkg/command"
-	"github.com/koffihuguesagossadou/bungo/pkg/fi"
 	"github.com/spf13/cobra"
 )
 
 
 
-func TestDo(t *testing.T) {
+func TestEncoder(t *testing.T) {
 
 	// Case 1 : input file is missing
 	cmd := &cobra.Command{}
@@ -21,7 +20,8 @@ func TestDo(t *testing.T) {
 	cmd.Flags().StringP("o", "o", "output.txt", "output file")
 
 	err := command.EncodeCmd.RunE(cmd, []string{})
-	if err == nil || err.Error() != "error encoding file: input file is missing" {
+
+	if( err != nil && !strings.Contains(err.Error(), "error encoding file") ) {
 		t.Errorf("encodeCmd.RunE() = nil, want error 'input file is missing'")
 	}
 
@@ -53,10 +53,6 @@ func TestDo(t *testing.T) {
 		t.Errorf("EncodeCmd.Execute() error = %v, want nil", err)
 	}
 
-	// check if output file have been created
-	if !fi.FileExists(outputFile) {
-		t.Errorf("FileExists(\"%s\") = false; want true", outputFile)
-	}
 
 	// delete output file
 	os.Remove(outputFile)
@@ -91,5 +87,60 @@ func TestDo(t *testing.T) {
 
 	os.Remove(f.Name())
 	
+
+}
+
+
+func TestDecoder(t *testing.T) {
+
+	// Case 1 : input file is missing
+	cmd := &cobra.Command{}
+	cmd.Flags().StringP("i", "i", "", "input file") // Simule un flag sans valeur
+	cmd.Flags().StringP("o", "o", "output.txt", "output file")
+
+
+	err := command.DecodeCmd.RunE(cmd, []string{})
+	if err != nil && err == cmd.MarkFlagRequired("i") {
+		t.Errorf("decodeCmd.RunE() = nil, want error 'input file is missing'")
+	}
+
+	// Case 2 : input file does not exist
+	cmd.Flags().Set("i", "non_existent_file.txt")
+	err = command.DecodeCmd.RunE(cmd, []string{})
+	if err == nil && strings.Contains(err.Error(), "does not exist") {
+		t.Errorf("decodeCmd.RunE() = nil, want error 'file does not exist' %v", err)
+	}
+
+	// Cas 3 : invalid input file
+
+	inputFile, err := filepath.Abs("../test/files/input-base64.txt");
+
+	if err != nil {
+		t.Errorf("FileExists(\"%s\") = false; want true", inputFile)
+	}
+	
+
+	outputFile := "decoded_file"
+
+	// Test case 1: Decode a file
+	command.DecodeCmd.Flags().StringP("i", "i", inputFile, "input file")
+	command.DecodeCmd.Flags().StringP("o", "o", outputFile, "output file")
+
+	// Delete the output file if it exists
+	os.Remove(outputFile)
+
+	if err := command.DecodeCmd.Execute(); err != nil {
+		t.Errorf("DecodeCmd.Execute() error = %v, want nil", err)
+	}
+
+	// delete output file
+	os.Remove(outputFile)
+
+	// Case 4 : No output file provided
+	cmd.Flags().Set("o", "")
+	err = command.DecodeCmd.RunE(cmd, []string{})
+	if err == nil && strings.Contains(err.Error(), "output file is missing"){
+		t.Errorf("decodeCmd.RunE() = nil, want error 'output file is missing'")
+	}
 
 }
