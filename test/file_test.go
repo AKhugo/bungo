@@ -4,19 +4,19 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/koffihuguesagossadou/bungo/pkg/fi"
+	"github.com/koffihuguesagossadou/bungo/pkg/utils"
 )
 
 func TestFileExists(t *testing.T) {
 
 	// Test case 1: path empty
 
-	if fi.FileExists("") {
+	if utils.FileExists("") {
 		t.Errorf("FileExists should return false for an empty path")
 	}
 
 	// Test case 2: File does not exist
-	if fi.FileExists("file-does-not-exist.img") {
+	if utils.FileExists("file-does-not-exist.img") {
 		t.Errorf("FileExists(\"non_existent_file.txt\") = true; want false")
 	}
 
@@ -30,7 +30,7 @@ func TestFileExists(t *testing.T) {
 	}
 
 
-	if !fi.FileExists(existingFile) {
+	if !utils.FileExists(existingFile) {
 		t.Errorf("FileExists(\"%s\") = false; want true", existingFile)
 	}
 }
@@ -44,7 +44,7 @@ func TestFileExists(t *testing.T) {
 // 3. A binary file with known content.
 func TestGetFileData(t *testing.T) {
 	// Cas 1 : Fichier inexistant
-	_, err := fi.GetFileData("non_existent_file.txt")
+	_, err := utils.GetFileData("non_existent_file.txt")
 	if err == nil {
 		t.Error("GetFileData(\"non_existent_file.txt\") = nil; want error")
 	}
@@ -56,11 +56,14 @@ func TestGetFileData(t *testing.T) {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error, Error getting file path:", textFile, err)
 	}
 
-	data , err := fi.GetFileData(textFile)
+	data , err := utils.GetFileData(textFile)
+
+	// error on getting data file
 	if err != nil {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error", textFile, err)
 	}
 
+	
 	if len(data) == 0 {
 		t.Errorf("GetFileData(\"%s\"): data = %q; want non-empty string", textFile, data)
 	}
@@ -73,7 +76,7 @@ func TestGetFileData(t *testing.T) {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error, Error getting file path:", binaryFile, err)
 	}
 
-	binaryData, err := fi.GetFileData(binaryFile)
+	binaryData, err := utils.GetFileData(binaryFile)
 
 	if err != nil {
 		t.Errorf("GetFileData(\"%s\") = error %v; want no error", binaryFile, err)
