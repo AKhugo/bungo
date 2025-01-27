@@ -30,6 +30,11 @@ func Do(args []string) int {
 	DecodeCmd.Flags().StringP("o", "o", "", "output file")
 	rootCmd.AddCommand(DecodeCmd)
 
+	// compress command with default flags
+	CompressCmd.Flags().StringP("input", "i", "", "input file")
+	CompressCmd.Flags().IntP("quantity", "q", 70, "quality of the image")
+	rootCmd.AddCommand(CompressCmd)
+
 	ctx := context.Background()
 
 	// 

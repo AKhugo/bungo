@@ -8,6 +8,7 @@ import (
 	"image/png"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/koffihuguesagossadou/bungo/common"
 )
@@ -23,14 +24,13 @@ func EncodeToBase64(file []byte) (string, error) {
 	return encoded, nil
 }
 
-
 func DecodeBase64(encoded string) ([]byte, error) {
 
 	if encoded == "" {
 
 		err := fmt.Errorf("encoded is empty")
 
-		return nil, ThrowError( err, "decoding file")
+		return nil, ThrowError(err, "decoding file")
 	}
 
 	decoded, err := base64.StdEncoding.DecodeString(encoded)
@@ -51,40 +51,40 @@ func ImageCompressor(inputPath string, quality *int) error {
 		defaultQuality := 70
 		quality = &defaultQuality
 	}
-	
+
 	if *quality < 1 || *quality > 100 {
 		return ThrowError(fmt.Errorf("quality is out of range"), "compressing file")
 	}
 
 	// Open the input file
-    input, err := os.Open(inputPath)
-    if err != nil {
-        return ThrowError(err, "compressing file");
-    }
-    defer input.Close()
+	input, err := os.Open(inputPath)
+	if err != nil {
+		return ThrowError(err, "compressing file")
+	}
+	defer input.Close()
 
-	// decode the image 
+	// decode the image
 	image, format, err := image.Decode(input)
 	if err != nil {
-		return ThrowError(err, "compressing file");
+		return ThrowError(err, "compressing file")
 	}
 
 	// get current path
-    currentPath, err := os.Getwd()
+	currentPath, err := os.Getwd()
 
-    if err != nil {
-        return ThrowError(err, common.ERROR_COMPRESSING_FILE);
-    }
+	if err != nil {
+		return ThrowError(err, common.ERROR_COMPRESSING_FILE)
+	}
 
-    // get file name
-    fileName := filepath.Base(inputPath)
+	// get file name without extension
+	fileName := strings.TrimSuffix(filepath.Base(inputPath), filepath.Ext(inputPath))
 
-    outputPath := currentPath + "/" + fileName + "_compressed." + format
+	outputPath := currentPath + "/" + fileName + "_compressed." + format
 
-	// output image 
+	// output image
 	output, err := os.Create(outputPath)
 	if err != nil {
-		return ThrowError(err, "compressing file");
+		return ThrowError(err, "compressing file")
 	}
 	defer output.Close()
 
@@ -99,13 +99,10 @@ func ImageCompressor(inputPath string, quality *int) error {
 		return ThrowError(fmt.Errorf("unsupported format: %s", format), "compressing file")
 	}
 
-	return nil;
-
+	return nil
 
 }
 
 // func FileCompressor(file []byte) ([]byte, error) {
-
-
 
 // }

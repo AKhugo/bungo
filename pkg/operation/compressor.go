@@ -12,7 +12,7 @@ import (
 func Compress( cmd *cobra.Command, args []string) error {
 
 
-    inputFile, err := cmd.Flags().GetString("i")
+    inputFile, err := cmd.Flags().GetString("input")
 
     if err != nil {
         return utils.ThrowError(err, common.ERROR_COMPRESSING_FILE);
