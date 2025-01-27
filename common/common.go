@@ -6,6 +6,7 @@ const (
 	ERROR= "error encoding file"
 	ERROR_ENDCODING_FILE = "encoding file"
 	ERROR_DECODING_FILE = "decoding file"
+	ERROR_COMPRESSING_FILE = "compressing file"
 )
 
 
