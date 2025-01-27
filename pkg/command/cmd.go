@@ -32,7 +32,8 @@ func Do(args []string) int {
 
 	// compress command with default flags
 	CompressCmd.Flags().StringP("input", "i", "", "input file")
-	CompressCmd.Flags().IntP("quantity", "q", 70, "quality of the image")
+	CompressCmd.Flags().IntP("quality", "q", 70, "quality of the image")
+	CompressCmd.Flags().BoolP("webp", "w", false, "compress image to webp")
 	rootCmd.AddCommand(CompressCmd)
 
 	ctx := context.Background()

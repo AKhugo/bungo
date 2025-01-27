@@ -95,6 +95,8 @@ func ImageCompressor(inputPath string, quality *int) error {
 		jpeg.Encode(output, image, &opts)
 	case "png":
 		png.Encode(output, image)
+	case "jpg":
+		jpeg.Encode(output, image, &opts)
 	default:
 		return ThrowError(fmt.Errorf("unsupported format: %s", format), "compressing file")
 	}
