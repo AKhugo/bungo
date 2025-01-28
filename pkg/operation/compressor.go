@@ -19,13 +19,20 @@ func Compress( cmd *cobra.Command, args []string) error {
     }
 
 
+
     if inputFile == "" {
         return fmt.Errorf("error encoding file: input file is missing")
     }
-    
+
+    quality, err := cmd.Flags().GetInt("quality")
+
+    if err != nil {
+        return utils.ThrowError(err, common.ERROR_COMPRESSING_FILE);
+    }
 
 
-    err = utils.ImageCompressor(inputFile, nil)
+
+    err = utils.ImageCompressor(inputFile, &quality)
 
     if err != nil {
         return utils.ThrowError(err, common.ERROR_COMPRESSING_FILE);

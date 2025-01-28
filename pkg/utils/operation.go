@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+	"github.com/disintegration/imaging"
 	"github.com/koffihuguesagossadou/bungo/common"
 )
 
@@ -92,14 +92,46 @@ func ImageCompressor(inputPath string, quality *int) error {
 
 	switch format {
 	case "jpeg":
-		jpeg.Encode(output, image, &opts)
+		compressedImage, err := maxCompression(image)
+		if err != nil {
+			return ThrowError(err, "compressing file")
+		}
+		jpeg.Encode(output, compressedImage, &opts)
 	case "png":
 		png.Encode(output, image)
+	case "jpg":
+		jpeg.Encode(output, image, &opts)
 	default:
 		return ThrowError(fmt.Errorf("unsupported format: %s", format), "compressing file")
 	}
 
 	return nil
+
+}
+
+// private function for max compression
+func maxCompression(file image.Image) (image.Image, error) {
+
+
+	// first we'll resize the image to 1x1
+	
+	//get the image height and width
+	var width int;
+
+	// check file total size
+	if file.Bounds().Max.X * file.Bounds().Max.Y > 1000000 {
+		width = 1280
+	} else {
+		width = 960
+	}
+
+
+	resizedImage := imaging.Resize(file, width, 0, imaging.NearestNeighbor)
+
+	rgbImage := image.NewRGBA(resizedImage.Bounds())
+	// resize the image to 1x1
+
+	return rgbImage, nil
 
 }
 
